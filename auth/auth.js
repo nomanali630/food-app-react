@@ -1,14 +1,8 @@
 var express = require("express");
 var bcrypt = require("bcrypt-inzi");
 // var jwt = require('jsonwebtoken');
-// var postmark = require("postmark");
-// var { SERVER_SECRET } = require("../core/index");
-
-// var API_TOKEN = process.env.API_TOKEN 
-// var client = new postmark.Client(API_TOKEN);
-
+var SERVER_SECRET  = '1255';
 var { foodModel, otpModel } = require("../database/module");
-const { Router } = require("express");
 // console.log("foodModel: ", foodModel);
 
 var api = express.Router();
@@ -45,7 +39,7 @@ api.post("/signup", (req, res, next) => {
                         "email": req.body.email,
                         "password": hash,
                         "phone": req.body.phone,
-                        "gender": req.body.gender,
+                        
                     })
                     newUser.save((err, data) => {
                         if (!err) {
@@ -139,4 +133,4 @@ api.post("/login", (req, res, next) => {
             }
         });
 });
-module.exports = Router;
+module.exports = api;

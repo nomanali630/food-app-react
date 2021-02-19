@@ -7,6 +7,9 @@ import axios from "axios";
 
 function Signup() {
   var url = "http://localhost:5000"
+  
+
+
   function sign(event) {
     event.preventDefault();
     var name = document.getElementById("name").value;
@@ -25,7 +28,7 @@ function Signup() {
       data: Data,
       withCredentials: true
     }).then((response) => {
-
+      
       console.log(response.data.message)
     }).catch((error) => {
       console.log(error);
@@ -40,7 +43,7 @@ function Signup() {
       <form onSubmit={sign}>
         <div className="form-group text-center">
           <label htmlFor="exampleInputEmail1">Name</label>
-          <input type="email" className="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter Name" />
+          <input type="text" className="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter Name" />
 
         </div>
         <div className="form-group text-center">
@@ -50,7 +53,7 @@ function Signup() {
         </div>
         <div className="form-group text-center">
           <label htmlFor="exampleInputEmail1">Phone</label>
-          <input type="email" className="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter email" />
+          <input type="number" className="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter phone" />
 
         </div>
         <div className="form-group text-center">

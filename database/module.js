@@ -42,7 +42,7 @@ var userSchema = new mongoose.Schema({
     "createdOn": { "type": Date, "default": Date.now },
     "activeSince": Date
 });
-var foodModel = mongoose.model("users", userSchema);
+var foodModel = mongoose.model("foodUsers", userSchema);
 
 var otpSchema = new mongoose.Schema({
     "email": String,
