@@ -13,9 +13,8 @@ function Signup() {
   var url = "http://localhost:5000"
   let history = useHistory()
   let [show, setshow  ] = useState()
+  let [showSucess, setshowsucces  ] = useState()
   
-
-
 
   function sign(event) {
     event.preventDefault();
@@ -36,9 +35,8 @@ function Signup() {
       withCredentials: true
     }).then((response) => {
       if (response.data.status === 200) {
-        history.push("/login")
-        
-        setshow(response.data.message)
+        // history.push("/login")        
+        setshowsucces(response.data.message)
       }else{
         setshow(response.data.message)
       }
@@ -74,9 +72,14 @@ function Signup() {
           <input type="password" className="form-control" id="password" placeholder="Password" />
         </div>
 
-        <button type="submit" className="btn btn-primary container-fluid ">Sign up</button>
-        {show?<div class="alert alert-danger" role="alert">{show}</div>:<div class="alert alert-success" role="alert">
-         {show} </div>}
+        <button type="submit" className="btn btn-primary container-fluid mb-3 ">Sign up</button><br></br>
+        {show?<div class="alert alert-danger" role="alert">{show}</div>:null}
+
+        {showSucess? <div class="alert alert-success" role="alert"> {showSucess}       
+          <span style={{cursor: "pointer"}} onClick={()=>{
+           history.push("/login")
+         }}> : Login</span> </div>:null}
+
       </form>
 
     </div>
