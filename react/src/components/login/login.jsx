@@ -1,30 +1,66 @@
 // import react from "react";
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+import React,{ useState } from 'react';
 // import { Button , Form , Nav , Navbar , FormControl ,Link} from "react-dom";
 import "./login.css"
+import {
+  useHistory
+} from "react-router-dom";
 
 
 function Login (){
 
+  let url="http://localhost:5000";
+  let [show,setshow]= useState();
+  let history = useHistory();
+      
+   function login(event){
+     event.preventDefault();
+
+     axios({
+       method: "post",
+       url: url + "/login",
+       data:{
+         email: document.getElementById("email").value,
+         password: document.getElementById("password").value
+       },
+       withCredentials: true
+     }).then((response)=>{
+       if(response.data.status === 200){
+         history.push("/dashboard")
+         console.log(response.data.message)
+       }else{
+         history.push("/login")
+         setshow(response.data.message)
+       }
+     }).catch((error) => {
+      console.log(error);
+    });
+
+   }
 
 
     return(
         <div className="main">
             <h1 className="sign">Login</h1>
-             <form>
+             <form onSubmit={login}>
              
         
         <div className="form-group text-center">
           <label htmlFor="exampleInputEmail1">Email address</label>
-          <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" />
+          <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
     
         </div>
         <div className="form-group text-center">
           <label htmlFor="exampleInputPassword1 ">Password</label>
-          <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" />
+          <input type="password" className="form-control" id="password" placeholder="Password" />
         </div>
         
-        <button type="submit" className="btn btn-primary container-fluid">Login</button>
+        <button type="submit" className="btn btn-primary container-fluid mb-3">Login</button><br></br>
+        {show?<div class="alert alert-danger" role="alert">{show}
+        </div>:null}
       </form>
         </div>
     )
