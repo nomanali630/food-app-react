@@ -1,13 +1,20 @@
-// import react from "react";
+import React, {useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import { Button , Form , Nav , Navbar , FormControl ,Link} from "react-dom";
 import "./signup.css"
 import axios from "axios";
+import {
+  useHistory
+} from "react-router-dom";
+// import { useState } from 'react';
 
 
 function Signup() {
   var url = "http://localhost:5000"
+  let history = useHistory()
+  let [show, setshow  ] = useState()
   
+
 
 
   function sign(event) {
@@ -28,7 +35,13 @@ function Signup() {
       data: Data,
       withCredentials: true
     }).then((response) => {
-      
+      if (response.data.status === 200) {
+        history.push("/login")
+        
+        setshow(response.data.message)
+      }else{
+        setshow(response.data.message)
+      }
       console.log(response.data.message)
     }).catch((error) => {
       console.log(error);
@@ -62,7 +75,10 @@ function Signup() {
         </div>
 
         <button type="submit" className="btn btn-primary container-fluid ">Sign up</button>
+        {show?<div class="alert alert-danger" role="alert">{show}</div>:<div class="alert alert-success" role="alert">
+         {show} </div>}
       </form>
+
     </div>
   )
 
