@@ -2,9 +2,9 @@
 // import react from "react";
 import {
     BrowserRouter as Router,
-    Switch,
+    Redirect,
     Route,
-   
+
 } from "react-router-dom";
 
 import Home from "./../home/home";
@@ -12,27 +12,44 @@ import Login from "./../login/login";
 import Signup from "./../signup/signup";
 import Dashboard from "./../dashboard/dashboard";
 
-
-
-
+import { useGlobalState } from "../../context/globalContext"
+import Nav from './nav'
 function Rout() {
+    const GlobalState = useGlobalState()
+    console.log(GlobalState)
     return (
         <div>
             <Router>
-            <Switch>
-                <Route exact path="/">
-                    <Home />
-                </Route>
-                <Route path="/signup">
-                    <Signup />
-                </Route>
-                <Route path="/login">
-                    <Login />
-                </Route>
-                <Route path="/dashboard">
-                    <Dashboard />
-                </Route>
-            </Switch>
+            <Nav />
+
+                {GlobalState.loginStatus === false ?
+                    <div>
+                        <Route exact path="/">
+                            <Home />
+                        </Route>
+                        <Route path="/signup">
+                            <Signup />
+                        </Route>
+                        <Route path="/login">
+                            <Login />
+                        </Route>
+                        <Route path="*">
+                            <Redirect to="/" />
+                        </Route>
+                    </div> : null}
+
+                {GlobalState.loginStatus === true ?
+                    <div>
+                        <Route exact path="/">
+                            <Dashboard />
+                        </Route>
+                        {/* <Route path="/profile">
+                            <Profile />
+                        </Route> */}
+                        <Route path="*">
+                            <Redirect to="/" />
+                        </Route>
+                    </div> : null}
             </Router>
         </div>
     )

@@ -1,6 +1,6 @@
 var express = require("express");
 var bcrypt = require("bcrypt-inzi");
-// var jwt = require('jsonwebtoken');
+var jwt = require('jsonwebtoken');
 var SERVER_SECRET  = '1255';
 var { foodModel, otpModel } = require("../database/module");
 // console.log("foodModel: ", foodModel);
@@ -112,7 +112,6 @@ api.post("/login", (req, res, next) => {
                                 name: user.name,
                                 email: user.email,
                                 phone: user.phone,
-                                gender: user.gender,
                             }
                         });
 
@@ -133,4 +132,14 @@ api.post("/login", (req, res, next) => {
             }
         });
 });
+
+
+api.post("/logout", (req, res, next) => {
+    res.cookie('jToken', "", {
+        maxAge: 86_400_000,
+        httpOnly: true
+    });
+    res.send("logout success");
+});
+
 module.exports = api;

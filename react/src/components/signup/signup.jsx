@@ -53,22 +53,22 @@ function Signup() {
       <h1 className="sign">Signup</h1>
       <form onSubmit={sign}>
         <div className="form-group text-center">
-          <label htmlFor="exampleInputEmail1">Name</label>
+          
           <input type="text" className="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter Name" />
 
         </div>
         <div className="form-group text-center">
-          <label htmlFor="exampleInputEmail1">Email address</label>
+          
           <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
 
         </div>
         <div className="form-group text-center">
-          <label htmlFor="exampleInputEmail1">Phone</label>
+          
           <input type="number" className="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter phone" />
 
         </div>
         <div className="form-group text-center">
-          <label htmlFor="exampleInputPassword1 ">Password</label>
+        
           <input type="password" className="form-control" id="password" placeholder="Password" />
         </div>
 

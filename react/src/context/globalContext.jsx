@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
 import axios from 'axios'
-import { response } from 'express'
+
 const GlobalStateContext = React.createContext()
 const GlobalStateUpdateContext = React.createContext()
 
@@ -17,12 +17,13 @@ export function GlobalStateProvider({ children }) {
         axios({
             method: "get",
             url: `http://localhost:5000/profile`,
+            withCredentials: true
         }).then((response) => {
-            console.log("context res:", response.data.userData)
-            if (response.data.status === 200) {
+            console.log("context res:", response.data.profile)
+            if (response.status === 200) {
                 setdata((prev) => ({
                     ...prev,
-                    user: response.data.userData,
+                    user: response.data.profile,
                     loginStatus: true
                 }))
             }
