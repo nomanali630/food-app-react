@@ -7,7 +7,7 @@ import {
 
 } from "react-router-dom";
 
-import Home from "./../home/home";
+
 import Login from "./../login/login";
 import Signup from "./../signup/signup";
 import Dashboard from "./../dashboard/dashboard";
@@ -25,9 +25,9 @@ function Rout() {
                 {GlobalState.loginStatus === false ?
                     <div>
                         <Route exact path="/">
-                            <Home />
+                            <Signup />
                         </Route>
-                        <Route path="/signup">
+                        <Route exact path="/signup">
                             <Signup />
                         </Route>
                         <Route path="/login">

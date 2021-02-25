@@ -1,8 +1,6 @@
 // import react from "react";
 
-// import Nav from "../nav/nav"
-import axios from 'axios'
-import {useGlobalState} from '../../context/globalContext'
+
 import React, { useState } from 'react';
 import './dashboard.css';
 import Products from './Products';
@@ -25,33 +23,17 @@ function Dashboard() {
     );
   };
 
-  const  GlobalState= useGlobalState()
-
-  function logout() {
-    axios({
-      methid: "post",
-      url: 'http://localhost:5000/logout',
-    }).then((response)=>{
-      console.log(response)
-    }).catch((error)=>{
-      console.log(error)
-    })
-    return false
-  }
-
   return (
-    // <div logout={logout}>
-    //   <h1>Dashboard</h1>
-    //   <h1>{GlobalState.user.name}</h1>
-    // </div>
-
+   
+    
+    
     <div className="App">
     <header>
-      <button onClick={() => navigateTo(PAGE_CART)}>
+      <button onClick={() => navigateTo(PAGE_CART)} className="btn" >
         Go to Cart ({getCartTotal()})
       </button>
-
-      <button onClick={() => navigateTo(PAGE_PRODUCTS)}>
+        
+      <button onClick={() => navigateTo(PAGE_PRODUCTS)}className="btn">
         View Products
       </button>
     </header>

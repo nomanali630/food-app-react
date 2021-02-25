@@ -50,26 +50,26 @@ function Signup() {
 
   return (
     <div className="main">
-      <h1 className="sign">Signup</h1>
+      <h1 className="sign">Signup</h1><br></br>
       <form onSubmit={sign}>
-        <div className="form-group text-center">
+        <div className="form-group text-center ">
           
-          <input type="text" className="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter Name" />
+          <input type="text" className="form-control" id="name" aria-describedby="emailHelp" placeholder="Enter Name" required />
 
         </div>
         <div className="form-group text-center">
           
-          <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" />
+          <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required />
 
         </div>
         <div className="form-group text-center">
           
-          <input type="number" className="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter phone" />
+          <input type="number" className="form-control" id="phone" aria-describedby="emailHelp" placeholder="Enter phone" required />
 
         </div>
         <div className="form-group text-center">
         
-          <input type="password" className="form-control" id="password" placeholder="Password" />
+          <input type="password" className="form-control" id="password" placeholder="Password" required />
         </div>
 
         <button type="submit" className="btn btn-primary container-fluid mb-3 ">Sign up</button><br></br>
