@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function Cart({ cart, setCart }) {
+  var [value, setValue] = useState(0)
+  function addItem() {
+    setValue((previousValue) => previousValue + 1)
+  }
+  function redItem() {
+    setValue(value - 1)
+  }
   const getTotalSum = () => {
     return cart.reduce(
       (sum, { cost, quantity }) => sum + cost * quantity,
@@ -32,7 +39,8 @@ export default function Cart({ cart, setCart }) {
       {cart.length > 0 && (
         <button onClick={clearCart}>Clear Cart</button>
       )}
-      <div className="products">
+      <h2>Total Cost: Pkr:{getTotalSum()}</h2>
+      <div className="container">
         <div className="row">
           {cart.map((product, idx) => (
             // <div className="product" key={idx}>
@@ -58,9 +66,17 @@ export default function Cart({ cart, setCart }) {
                 <div className="card-body">
                   <h5 className="card-title">{product.name}</h5>
                   <p className="card-text">pkr:{product.cost}</p>
-                  <button onClick={() => addToCart(product)} className="btn btn-primary">
-                    Add to Cart
-       </button>
+                  <Button className={classes.fontSize} size="small" color="primary" id="add" onClick={addItem}>
+                    +
+                  </Button>
+                  <p>{value}</p>
+                  <Button className={classes.fontSize} size="small" color="primary" onClick={redItem}>
+                            - 
+                  </Button>
+
+                  <button onClick={() => removeFromCart(product)} className="btn btn-primary">
+                    Remove
+                 </button>
                 </div>
               </div>
             </div>
@@ -68,7 +84,7 @@ export default function Cart({ cart, setCart }) {
         </div>
       </div>
 
-      <h2>Total Cost: Pkr:{getTotalSum()}</h2>
+      {/* <h2>Total Cost: Pkr:{getTotalSum()}</h2> */}
     </>
   );
 }
