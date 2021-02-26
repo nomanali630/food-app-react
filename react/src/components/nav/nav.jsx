@@ -25,7 +25,7 @@ function Nav() {
                   <Link className="nav-link" to="/">Dashboard</Link>
                 </li> */}
                 <li className="nav-item float-right" >
-                  <Link className="nav-link" to="/"><Logout /></Link>
+                  <Link className="nav-link" to="/login"><Logout /></Link>
                 </li>
 
               </ul>

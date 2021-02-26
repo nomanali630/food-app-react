@@ -29,7 +29,8 @@ function Login() {
         GlobaleStateUpdate(prev => ({
           ...prev,
           loginStatus: true,
-          user: response.data.user
+          user: response.data.user,
+          role:response.data.user.role
         }))
         // history.push("/dashboard")
         console.log(response.data.message)

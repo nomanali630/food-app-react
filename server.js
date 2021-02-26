@@ -8,6 +8,7 @@ var jwt = require('jsonwebtoken')
 var app = express()
 var authRoutes = require('./auth/auth')
 var {foodModel} = require("./database/module")
+var {itemOrderModel}=require("./database/module")
 var SERVER_SECRET  = '1255';
 
 app.use(bodyParser.json());
@@ -48,6 +49,7 @@ app.use(function (req, res, next) {
                     id: decodedData.id,
                     name: decodedData.name,
                     email: decodedData.email,
+                    role:decodedData.role
                 }, SERVER_SECRET)
                 res.cookie('jToken', token, {
                     maxAge: 86_400_000,
@@ -67,7 +69,7 @@ app.get("/profile", (req, res, next) => {
 
     console.log(req.body)
 
-    foodModel.findById(req.body.jToken.id, 'name email phone  createdOn ',
+    foodModel.findById(req.body.jToken.id, 'name email phone  createdOn role',
         function (err, doc) {
             if (!err) {
                 console.log("doc:", doc)
@@ -84,6 +86,45 @@ app.get("/profile", (req, res, next) => {
 
 
 });
+app.get("./order", (req,res,next)=>{
+    if(!req.body.order || req.body.total){
+        res.status(403).send(`
+        please send order and total in json body.
+            e.g:
+            {
+                "orders": "order",
+                "total": "45785",
+            }
+        `)
+
+        return;
+    }
+
+    itemOrderModel.findOne({email: req.body.jToken.email},(error,user)=>{
+        if(user){
+            itemOrderModel.create({
+                name: req.body.name,
+                phone: req.body.phone,
+                address: req.body.address,
+                total: req.body.total,
+                orders: req.body.orders
+            }).then((data)=>{
+                res.send({
+                    status:200,
+                    message:"Order submitted",
+                    data:data
+                })
+            }).catch(()=>{
+                res.send({
+                    status:500,
+                    message:"submittion error, "+error
+                })
+            })
+        }else{
+            console.log("error",error)
+        }
+    })
+})
 
 
 

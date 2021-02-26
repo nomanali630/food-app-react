@@ -93,7 +93,7 @@ export default function Products({ setCart, cart }) {
             //     Add to Cart
             //   </button>
             // </div>
-            <div className="col-md-4 mt-4 " style={{ boxShadow: "0 0 10px grey" }}>
+            <div className="col-md-4 mt-4 " style={{ boxShadow: "0 0 10px grey" }} key={idx}>
               <div className="card" style={{ width: '18rem' }}>
                 <img className="card-img-top" src={product.image} alt="Card image cap" />
                 <div className="card-body">

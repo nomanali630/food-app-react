@@ -6,11 +6,13 @@ import {
     Route,
 
 } from "react-router-dom";
+import Admin from '../Admin/admin'
 
 
 import Login from "./../login/login";
 import Signup from "./../signup/signup";
 import Dashboard from "./../dashboard/dashboard";
+import Checkout from "../dashboard/Checkout"
 
 import { useGlobalState } from "../../context/globalContext"
 import Nav from './nav'
@@ -22,7 +24,7 @@ function Rout() {
             <Router>
             <Nav />
 
-                {GlobalState.loginStatus === false ?
+                {GlobalState.role === null ?
                     <div>
                         <Route exact path="/">
                             <Signup />
@@ -38,17 +40,24 @@ function Rout() {
                         </Route>
                     </div> : null}
 
-                {GlobalState.loginStatus === true ?
+                {GlobalState.role === "user" ?
                     <div>
                         <Route exact path="/">
                             <Dashboard />
                         </Route>
-                        {/* <Route path="/profile">
-                            <Profile />
-                        </Route> */}
+                        <Route path="/checkout">
+                            <Checkout />
+                        </Route>
                         <Route path="*">
                             <Redirect to="/" />
                         </Route>
+                    </div> : null}
+                    {GlobalState.role === "admin" ?
+                    <div>
+                        <Route exact path="/">
+                            <Admin />
+                        </Route>
+                        
                     </div> : null}
             </Router>
         </div>

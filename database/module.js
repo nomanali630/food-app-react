@@ -38,7 +38,7 @@ var userSchema = new mongoose.Schema({
     "password": String,
     "phone": String,
     
-    
+    "role": { "type": String, "default": "user" },
     "createdOn": { "type": Date, "default": Date.now },
     "activeSince": Date
 });
@@ -51,9 +51,20 @@ var otpSchema = new mongoose.Schema({
 });
 var otpModel = mongoose.model("otps", otpSchema);
 
+var itemOrderSchema = new mongoose.Schema({
+    "name": String,
+    "email": String,
+    "phone": String,
+    "address": String,
+    "total": String,
+    "orders": Array,
+    "createdOn": { "type": Date, "default": Date.now },
+})
+var itemOrderModel = mongoose.model("Orders",itemOrderSchema)
 
 module.exports = {
     foodModel: foodModel,
     otpModel: otpModel,
+    itemOrderModel:itemOrderModel
     
 }

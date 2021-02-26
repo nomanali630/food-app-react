@@ -11,7 +11,9 @@ export function GlobalStateProvider({ children }) {
     const [data, setdata] = useState({
         user: null,
         loginStatus: false,
-        token: null
+        token: null,
+        role:null,
+        checkoutData:null
     })
     useEffect(() => {
         axios({
@@ -24,7 +26,8 @@ export function GlobalStateProvider({ children }) {
                 setdata((prev) => ({
                     ...prev,
                     user: response.data.profile,
-                    loginStatus: true
+                    loginStatus: true,
+                    role:response.data.profile.role
                 }))
             }
         }).catch((error) => {
