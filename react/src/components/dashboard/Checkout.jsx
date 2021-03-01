@@ -2,8 +2,10 @@ import React from 'react'
 import axios from 'axios'
 import{useGlobalState,useGlobalStateUpdate} from "../../context/globalContext"
 function Checkout(){
-   var GlobalState = useGlobalStateUpdate()
-   function order(){
+   var GlobalState = useGlobalState()
+   console.log("data: " ,GlobalState.checkoutData)
+   function order(e){
+     e.preventDefault()
      axios({
        method:"post",
        url:"http://localhost:5000/order",
@@ -12,20 +14,20 @@ function Checkout(){
          phone:document.getElementById("phone").value,
          address:document.getElementById("address").value,
          orderData:GlobalState.checkoutData.cart,
-         getTotalSum:GlobalState.checkoutData.getTotalSum
+         Total:GlobalState.checkoutData.Total
        },
        withCredentials:true
      }).then((res)=>{
-       console.log(res)
+       console.log(res.data.message)
      }).catch((error)=>{
        console.log(error)
      })
    }
   return(
-    <form >
+    <form onSubmit={order}>
     <div className="form-group">
       <label htmlFor="exampleInputEmail1">Name</label>
-      <input type="email" className="name" id="name" aria-describedby="emailHelp" placeholder="Name" required />
+      <input type="text" className="name" id="name" aria-describedby="emailHelp" placeholder="Name" required />
       
     </div>
     <div className="form-group">

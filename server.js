@@ -86,8 +86,9 @@ app.get("/profile", (req, res, next) => {
 
 
 });
-app.get("./order", (req,res,next)=>{
-    if(!req.body.order || req.body.total){
+app.post("/order", (req,res,next)=>{
+   
+    if(!req.body.orderData || !req.body.Total){
         res.status(403).send(`
         please send order and total in json body.
             e.g:
@@ -100,14 +101,16 @@ app.get("./order", (req,res,next)=>{
         return;
     }
 
-    itemOrderModel.findOne({email: req.body.jToken.email},(error,user)=>{
+    foodModel.findOne({email: req.body.jToken.email},(error,user)=>{
+        console.log('user:',user)
+
         if(user){
             itemOrderModel.create({
                 name: req.body.name,
                 phone: req.body.phone,
                 address: req.body.address,
-                total: req.body.total,
-                orders: req.body.orders
+                total: req.body.Total,
+                orders: req.body.orderData
             }).then((data)=>{
                 res.send({
                     status:200,

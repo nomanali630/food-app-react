@@ -13,7 +13,7 @@ export function GlobalStateProvider({ children }) {
         loginStatus: false,
         token: null,
         role:null,
-        checkoutData:null
+        checkoutData:null,
     })
     useEffect(() => {
         axios({

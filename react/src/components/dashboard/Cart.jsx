@@ -6,14 +6,15 @@ import{useGlobalStateUpdate} from '../../context/globalContext'
 
 export default function Cart({ cart, setCart }) {
  const history = useHistory()
-  const GlobalStateUpdate = useGlobalStateUpdate
+  const GlobalStateUpdate = useGlobalStateUpdate()
    
-   function Checkout(){
+   function checkout(){
+
     GlobalStateUpdate(prev=>({
       ...prev,
-      checkoutData:{cart:cart,getTotalSum:getTotalSum}
+      checkoutData:{cart:cart,Total:Total}
     }))
-    history.push("./checkout")
+    history.push("./Checkout")
    }
  
   const getTotalSum = () => {
@@ -22,6 +23,8 @@ export default function Cart({ cart, setCart }) {
       0
     );
   };
+  const Total = getTotalSum()
+  console.log("pury paise",Total)
 
   const clearCart = () => {
     setCart([]);
@@ -93,7 +96,7 @@ export default function Cart({ cart, setCart }) {
           ))}
         </div>
     </div>
-              <button onClick={Checkout}>Check Out</button>
+              <button onClick={checkout}>Check Out</button>
       {/* <h2>Total Cost: Pkr:{getTotalSum()}</h2> */ }
     </>
   );
