@@ -66,25 +66,25 @@ export default function Products({ setCart, cart }) {
     setCart(newCart);
   };
 
-  const [category, setCategory] = useState(HOME_GARDEN);
+  // const [category, setCategory] = useState(HOME_GARDEN);
 
-  const getProductsInCategory = () => {
-    return products.filter(
-      (product) => product.category === category
-    );
-  };
+  // const getProductsInCategory = () => {
+  //   return products.filter(
+  //     (product) => product.category === category
+  //   );
+  // };
 
   return (
     <>
       <h1>PRODUCTS</h1><br></br>
-      Select a category :
+      {/* Select a category :
       <select onChange={(e) => setCategory(e.target.value)}>
         <option value={HOME_GARDEN}>{HOME_GARDEN}</option>
         <option value={ElectricItems}>{ElectricItems}</option>
-      </select>
+      </select> */}
       <div className="container">
         <div className="row">
-          {getProductsInCategory().map((product, idx) => (
+          {products.map((product, idx) => (
             // <div className="product" key={idx}>
             //   <h3>{product.name}</h3>
             //   <h4>Pkr:{product.cost}</h4>
