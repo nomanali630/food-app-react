@@ -6,7 +6,7 @@ import {
     Route,
 
 } from "react-router-dom";
-import Admin from '../Admin/admin'
+import AdminDashboard from '../Admin/admin'
 
 
 import Login from "./../login/login";
@@ -55,7 +55,7 @@ function Rout() {
                     {GlobalState.role === "admin" ?
                     <div>
                         <Route exact path="/">
-                            <Admin />
+                            <AdminDashboard />
                         </Route>
                         
                     </div> : null}
