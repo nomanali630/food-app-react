@@ -137,6 +137,7 @@ api.post("/login", (req, res, next) => {
 
 
 api.post("/logout", (req, res, next) => {
+    res.clearCookie('jToken');
     res.cookie('jToken', "", {
         maxAge: 86_400_000,
         httpOnly: true

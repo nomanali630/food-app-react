@@ -5,7 +5,8 @@ import { useGlobalState, useGlobalStateUpdate } from "../../context/globalContex
 function Checkout() {
   let [show, setshow] = useState()
   var GlobalState = useGlobalState()
-  console.log("data: ", GlobalState.checkoutData)
+  console.log("data: ", Number(GlobalState.checkoutData.Total))
+  console.log("data: ", GlobalState)
   function order(e) {
     e.preventDefault()
     axios({

@@ -1,18 +1,20 @@
 
 // import react from "react";
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Redirect,
     Route,
 
 } from "react-router-dom";
 import AdminDashboard from '../Admin/admin'
+import AddProduct from '../Admin/AddProduct'
 
 
 import Login from "./../login/login";
 import Signup from "./../signup/signup";
 import Dashboard from "./../dashboard/dashboard";
 import Checkout from "../dashboard/Checkout"
+import Logout from "./logout"
 
 import { useGlobalState } from "../../context/globalContext"
 import Nav from './nav'
@@ -48,6 +50,7 @@ function Rout() {
                         <Route path="/checkout">
                             <Checkout />
                         </Route>
+                        
                         <Route path="*">
                             <Redirect to="/" />
                         </Route>
@@ -56,6 +59,12 @@ function Rout() {
                     <div>
                         <Route exact path="/">
                             <AdminDashboard />
+                        </Route>
+                        <Route  path="/addproduct">
+                            <AddProduct />
+                        </Route>
+                        <Route path="*">
+                            <Redirect to="/" />
                         </Route>
                         
                     </div> : null}

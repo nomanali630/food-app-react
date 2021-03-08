@@ -1,6 +1,6 @@
 // import react from "react";
 import { Link } from "react-router-dom"
-import Logout from '../logout/logout'
+import Logout from './logout'
 
 import {useGlobalState } from "../../context/globalContext"
 
@@ -14,7 +14,8 @@ function Nav() {
           <span className="navbar-toggler-icon" />
         </button> */}
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
-          {(GlobaleState.loginStatus === true) ?
+          { 
+           (GlobaleState.loginStatus === true) ?
             <div>
               <ul className="navbar-nav mr-auto">
                 {/* <li className="nav-item active">
@@ -24,10 +25,10 @@ function Nav() {
                 <li className="nav-item">
                   <Link className="nav-link" to="/">Dashboard</Link>
                 </li> */}
-                <li className="nav-item float-right" >
+                {/* <li className="nav-item float-right" >
                   <Link className="nav-link" to="/login"><Logout /></Link>
-                </li>
-
+                </li> */}
+                <Logout/>
               </ul>
               
             </div> :

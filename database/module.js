@@ -62,9 +62,18 @@ var itemOrderSchema = new mongoose.Schema({
 })
 var itemOrderModel = mongoose.model("Orders",itemOrderSchema)
 
+var addProductSchema = new mongoose.Schema({
+    price:String,
+    image:String,
+    product:String,
+    createdOn: { "type": Date, "default": Date.now },
+})
+var addProductModel = mongoose.model("addproduct",addProductSchema)
+
 module.exports = {
     foodModel: foodModel,
     otpModel: otpModel,
-    itemOrderModel:itemOrderModel
+    itemOrderModel:itemOrderModel,
+    addProductModel:addProductModel
     
 }

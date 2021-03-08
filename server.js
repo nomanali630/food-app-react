@@ -9,7 +9,7 @@ const multer = require('multer')
 var app = express()
 var authRoutes = require('./auth/auth')
 var {foodModel} = require("./database/module")
-var {itemOrderModel}=require("./database/module")
+var {itemOrderModel,addProductModel}=require("./database/module")
 var SERVER_SECRET  = '1255';
 
 app.use(bodyParser.json());
@@ -76,7 +76,7 @@ app.use(function (req, res, next) {
             const nowDate = new Date().getTime();
             const diff = nowDate - issueDate;
 
-            if (diff > 300000) {
+            if (diff > 30000000000) {
                 res.status(401).send("token expired")
             } else {
                 var token = jwt.sign({
@@ -121,7 +121,8 @@ app.get("/profile", (req, res, next) => {
 
 });
 app.post("/order", (req,res,next)=>{
-   
+   console.log("ordedsta", req.body.orderData)
+   console.log("total",req.body.Total)
     if(!req.body.orderData || !req.body.Total){
         res.status(403).send(`
         please send order and total in json body.
@@ -173,21 +174,30 @@ app.get("/getorder",(req,res,next)=>{
         }
     })
 })
+app.get("/getproducts",(req,res,next)=>{
+    addProductModel.find({},(data,error)=>{
+        if(data){
+            res.send({
+                data:data
+            })
+        }else{
+            res.send(error)
+        }
+    })
+})
 
 
 
 
-
-app.post("/upload", upload.any(), (req, res, next) => {  // never use upload.single. see https://github.com/expressjs/multer/issues/799#issuecomment-586526877
+app.post("/upload", upload.any(), (req, res, next) => {  
 
     console.log("req.body: ", req.body);
-    console.log("req.body: ", JSON.parse(req.body.myDetails));
-    console.log("req.files: ", req.files);
-
-    console.log("uploaded file name: ", req.files[0].originalname);
-    console.log("file type: ", req.files[0].mimetype);
-    console.log("file name in server folders: ", req.files[0].filename);
-    console.log("file path in server folders: ", req.files[0].path);
+    // console.log("req.body: ", JSON.parse(req.body.myDetails));
+    // console.log("req.files: ", req.files);
+    // console.log("uploaded file name: ", req.files[0].originalname);
+    // console.log("file type: ", req.files[0].mimetype);
+    // console.log("file name in server folders: ", req.files[0].filename);
+    // console.log("file path in server folders: ", req.files[0].path);
 
     // upload file to storage bucket 
     // you must need to upload file in a storage bucket or somewhere safe
@@ -204,28 +214,19 @@ app.post("/upload", upload.any(), (req, res, next) => {  // never use upload.sin
 
    
     bucket.upload(
-        req.files[0].path,
-        
+        req.files[0].path, 
         function (err, file, apiResponse) {
-            if (!err) {
-              
+            if (!err) {   
                 file.getSignedUrl({
                     action: 'read',
                     expires: '03-09-2491'
                 }).then((urlData, err) => {
                     if (!err) {
                         console.log("public downloadable url: ", urlData[0])  
-                        foodModel.findById({ email: req.headers.jToken.id},'email role', (err, user) => {
-                            if (!err) {
-                                itemOrderModel.create({
-                                    "name":req.body.productName,
-                                    "price":req.body.price,
-                                    "im,age":urlData[0],
-                                    // email: req.headers.jToken.email},{profilePic: urlData[0]}, (err, userTweet)=>{
-                                    // console.log("jsdlkfjsldjfaskfaskdsljfslajfa"  + userTweet)
-                                    // if(!err){
-                                    //     console.log('user update')
-                                    // }
+                                addProductModel.create({
+                                    product:req.body.product,
+                                    price:req.body.price,
+                                    image:urlData[0],
                                 }).then((data)=>{
                                     console.log(data)
                                     res.send({
@@ -245,14 +246,8 @@ app.post("/upload", upload.any(), (req, res, next) => {  // never use upload.sin
                                 //     res.send({
                                 //         pic: user.profilePic
                                 //     });
-                                // })
-                            }
-                            else {
-                                res.send({
-                                    message: "error"
-                                });
-                            }
-                        })
+                                // }
+                        
                         // // delete file from folder before sending response back to client (optional but recommended)
                         // // optional because it is gonna delete automatically sooner or later
                         // // recommended because you may run out of space if you dont do so, and if your files are sensitive it is simply not safe in server folder
@@ -274,9 +269,13 @@ app.post("/upload", upload.any(), (req, res, next) => {  // never use upload.sin
                 res.status(500).send();
             }
         });
-
-
     })
+
+
+
+
+
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log("server is running on: ", PORT);
