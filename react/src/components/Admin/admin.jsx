@@ -23,6 +23,21 @@ function AdminDashboard() {
             console.log(error)
         })
     }, [])
+    function updateStatus(id) {
+        axios({
+            method: 'post',
+            url:  'http://localhost:5000/updateStatus',
+            data: {
+                id: id,
+                status: "Order confirmed"
+            },
+            withCredentials: true
+        }).then((response) => {
+            alert(response.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
     console.log("order:", getorder)
     return (
         <div>
@@ -48,10 +63,7 @@ function AdminDashboard() {
                                 {value.orders.map((value, index) => {
                                     return (
                                         <div>
-                                            {/* <div>
-                                                <span>Category:</span>
-                                                <span className="float-right">{value.category}</span>
-                                            </div> */}
+                                            
                                             <div>
                                                 <span>Name:</span>
                                                 <span className="float-right">{value.product}</span>
@@ -68,8 +80,12 @@ function AdminDashboard() {
                                     <span>Total Cost:</span>
                                     <span className="float-right">Pkr:{value.total}</span>
                                 </div>
-                                <div className="text-center">
-                                <button className='  mt-2 btn btn-primary'>Order confirm</button>
+                                <div >
+                                <span className='float-right mt-2'>
+                                            <button onClick={() => {
+                                                updateStatus(value._id)
+                                            }} >Confirm Order</button>
+                                        </span>
                                 </div>
                             </div>
 

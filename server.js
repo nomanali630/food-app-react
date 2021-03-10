@@ -8,9 +8,9 @@ var jwt = require('jsonwebtoken')
 const multer = require('multer')
 var app = express()
 var authRoutes = require('./auth/auth')
-var {foodModel} = require("./database/module")
-var {itemOrderModel,addProductModel}=require("./database/module")
-var SERVER_SECRET  = '1255';
+var { foodModel } = require("./database/module")
+var { itemOrderModel, addProductModel } = require("./database/module")
+var SERVER_SECRET = '1255';
 
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -49,15 +49,15 @@ var SERVER_ACCOUNT = {
 
 admin.initializeApp({
     credential: admin.credential.cert(SERVER_ACCOUNT),
-    DATABASE_URL:"https://tweet-profile-pic-default-rtdb.firebaseio.com/" 
-    
+    DATABASE_URL: "https://tweet-profile-pic-default-rtdb.firebaseio.com/"
+
 });
 const bucket = admin.storage().bucket("gs://tweet-profile-pic.appspot.com");
 
 
 app.get('/', (req, res, next) => {
     res.send("running")
-    
+
 })
 
 app.use('/', authRoutes);
@@ -83,7 +83,7 @@ app.use(function (req, res, next) {
                     id: decodedData.id,
                     name: decodedData.name,
                     email: decodedData.email,
-                    role:decodedData.role
+                    role: decodedData.role
                 }, SERVER_SECRET)
                 res.cookie('jToken', token, {
                     maxAge: 86_400_000,
@@ -120,10 +120,10 @@ app.get("/profile", (req, res, next) => {
 
 
 });
-app.post("/order", (req,res,next)=>{
-   console.log("ordedsta", req.body.orderData)
-   console.log("total",req.body.Total)
-    if(!req.body.orderData || !req.body.Total){
+app.post("/order", (req, res, next) => {
+    console.log("ordedsta", req.body.orderData)
+    console.log("total", req.body.Total)
+    if (!req.body.orderData || !req.body.Total) {
         res.status(403).send(`
         please send order and total in json body.
             e.g:
@@ -136,128 +136,134 @@ app.post("/order", (req,res,next)=>{
         return;
     }
 
-    foodModel.findOne({email: req.body.jToken.email},(error,user)=>{
-        console.log('user:',user)
+    foodModel.findOne({ email: req.body.jToken.email }, (error, user) => {
+        console.log('user:', user)
 
-        if(user){
+        if (user) {
             itemOrderModel.create({
                 name: req.body.name,
                 phone: req.body.phone,
+                status: "In review",
+                email : req.body.jToken.email,
                 address: req.body.address,
                 total: req.body.Total,
                 orders: req.body.orderData
-            }).then((data)=>{
+            }).then((data) => {
                 res.send({
-                    status:200,
-                    message:"Order submitted",
-                    data:data
+                    status: 200,
+                    message: "Order submitted",
+                    data: data
                 })
-            }).catch(()=>{
+            }).catch(() => {
                 res.send({
-                    status:500,
-                    message:"submittion error, "+error
+                    status: 500,
+                    message: "submittion error, " + error
                 })
             })
-        }else{
-            console.log("error",error)
+        } else {
+            console.log("error", error)
         }
     })
 })
-app.get("/getorder",(req,res,next)=>{
-    itemOrderModel.find({},(data,error)=>{
-        if(data){
+app.get("/getorder", (req, res, next) => {
+    itemOrderModel.find({}, (data, error) => {
+        if (data) {
             res.send({
-                data:data,
+                data: data,
             })
-        }else{
+        } else {
             res.send(error)
         }
     })
 })
-app.get("/getproducts",(req,res,next)=>{
-    addProductModel.find({},(data,error)=>{
-        if(data){
+app.get("/getproducts", (req, res, next) => {
+    addProductModel.find({}, (data, error) => {
+        if (data) {
             res.send({
-                data:data
+                data: data
+            })
+        } else {
+            res.send(error)
+        }
+    })
+})
+app.get("/myOrders", (req, res, next) => {
+    foodModel.findOne({ email: req.body.jToken.email }, (err, user) => {
+        console.log("this is user.... ", user);    
+        if (user) {
+        itemOrderModel.find({ email: req.body.jToken.email }, (error, data) => {
+            console.log("this is data.... ", data);    
+            if (data) {
+                
+                    res.send({
+                        data: data,
+                        message:'maal aa rha hai'
+                    })
+                } else {
+                    res.send(error)
+                }
+            })
+        } else {
+            res.send(err)
+        }
+    })
+})
+app.post('/updateStatus',(req,res,next)=>{
+    itemOrderModel.findById({_id:req.body.id},(err,data)=>{
+        if(data){
+            data.updateOne({status:req.body.status},(error,update)=>{
+                if(update){
+                    res.send('status update')
+                }else{
+                    console.log(error)
+                }
             })
         }else{
-            res.send(error)
+            res.send(err)
         }
     })
 })
 
 
 
-
-app.post("/upload", upload.any(), (req, res, next) => {  
+app.post("/upload", upload.any(), (req, res, next) => {
 
     console.log("req.body: ", req.body);
-    // console.log("req.body: ", JSON.parse(req.body.myDetails));
-    // console.log("req.files: ", req.files);
-    // console.log("uploaded file name: ", req.files[0].originalname);
-    // console.log("file type: ", req.files[0].mimetype);
-    // console.log("file name in server folders: ", req.files[0].filename);
-    // console.log("file path in server folders: ", req.files[0].path);
-
-    // upload file to storage bucket 
-    // you must need to upload file in a storage bucket or somewhere safe
-    // server folder is not safe, since most of the time when you deploy your server
-    // on cloud it makes more t2han one instances, if you use server folder to save files
-    // two things will happen, 
-    // 1) your server will no more stateless
-    // 2) providers like heroku delete all files when dyno restarts (their could be lots of reasons for your dyno to restart, or it could restart for no reason so be careful) 
-
-
+    
     console.log(" req.cookies.jToken: ", req.cookies.jToken);
     console.log(" req.headers.jToken ==============: ", req.headers.jToken);
     console.log(" req.body.jToken: ", req.body.jToken);
 
-   
+
     bucket.upload(
-        req.files[0].path, 
+        req.files[0].path,
         function (err, file, apiResponse) {
-            if (!err) {   
+            if (!err) {
                 file.getSignedUrl({
                     action: 'read',
                     expires: '03-09-2491'
                 }).then((urlData, err) => {
                     if (!err) {
-                        console.log("public downloadable url: ", urlData[0])  
-                                addProductModel.create({
-                                    product:req.body.product,
-                                    price:req.body.price,
-                                    image:urlData[0],
-                                }).then((data)=>{
-                                    console.log(data)
-                                    res.send({
-                                        status:200,
-                                        message:"added successfully",
-                                        data:data
-                                    }).catch((error)=>{
-                                        console.log(error)
-                                        res.send({
-                                         status:500,
-                                         message:"user create error:" + error
-                                        })
-                                    })
+                        console.log("public downloadable url: ", urlData[0])
+                        addProductModel.create({
+                            product: req.body.product,
+                            price: req.body.price,
+                            image: urlData[0],
+                        }).then((data) => {
+                            console.log(data)
+                            res.send({
+                                status: 200,
+                                message: "product added successfully",
+                                data: data
+                            }).catch((error) => {
+                                console.log(error)
+                                res.send({
+                                    status: 500,
+                                    message: "user create error:" + error
                                 })
-                                //  user.update({ profilePic: urlData[0] }, {}, function (err, data) {
-                                //     // console.log(user)
-                                //     res.send({
-                                //         pic: user.profilePic
-                                //     });
-                                // }
+                            })
+                        })
                         
-                        // // delete file from folder before sending response back to client (optional but recommended)
-                        // // optional because it is gonna delete automatically sooner or later
-                        // // recommended because you may run out of space if you dont do so, and if your files are sensitive it is simply not safe in server folder
-                        // try {
-                        //     fs.unlinkSync(req.files[0].path)
-                        //     //file removed
-                        // } catch (err) {
-                        //     console.error(err)
-                        // }
-                        // res.send("Ok");
                     } try {
                         fs.unlinkSync(req.files[0].path)
                     } catch (err) {
@@ -269,7 +275,7 @@ app.post("/upload", upload.any(), (req, res, next) => {
                 res.status(500).send();
             }
         });
-    })
+})
 
 
 

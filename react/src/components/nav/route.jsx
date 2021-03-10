@@ -14,7 +14,7 @@ import Login from "./../login/login";
 import Signup from "./../signup/signup";
 import Dashboard from "./../dashboard/dashboard";
 import Checkout from "../dashboard/Checkout"
-import Logout from "./logout"
+import Myorders from '../dashboard/myOrders'
 
 import { useGlobalState } from "../../context/globalContext"
 import Nav from './nav'
@@ -50,7 +50,9 @@ function Rout() {
                         <Route path="/checkout">
                             <Checkout />
                         </Route>
-                        
+                        <Route path="/myOrders">
+                            <Myorders />
+                        </Route>
                         <Route path="*">
                             <Redirect to="/" />
                         </Route>

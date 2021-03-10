@@ -56,6 +56,7 @@ var itemOrderSchema = new mongoose.Schema({
     "email": String,
     "phone": String,
     "address": String,
+    "status": String,
     "total": String,
     "orders": Array,
     "createdOn": { "type": Date, "default": Date.now },

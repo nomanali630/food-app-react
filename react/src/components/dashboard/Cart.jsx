@@ -24,7 +24,7 @@ export default function Cart({ cart, setCart }) {
     );
   };
   const Total = getTotalSum()
-  console.log("pury paise",getTotalSum)
+  console.log("pury paise",Total)
 
   const clearCart = () => {
     setCart([]);
@@ -37,6 +37,7 @@ export default function Cart({ cart, setCart }) {
     ).quantity = amount;
     setCart(newCart);
   };
+  
 
   const removeFromCart = (productToRemove) => {
     setCart(
