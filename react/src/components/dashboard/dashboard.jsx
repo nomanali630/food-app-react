@@ -2,7 +2,7 @@
 
 
 import React, { useState } from 'react';
-import {useHistory} from 'react-router-dom';
+
 import './dashboard.css';
 import Products from './Products';
 import Cart from './Cart';
@@ -12,10 +12,7 @@ const PAGE_CART = 'cart';
 function Dashboard() {
   const [cart, setCart] = useState([]);
   const [page, setPage] = useState(PAGE_PRODUCTS);
-  const history = useHistory()
-  function myorder(){
-    history.push("/myOrders")
-  }
+  
 
   const navigateTo = (nextPage) => {
     setPage(nextPage);
@@ -41,7 +38,7 @@ function Dashboard() {
       <button onClick={() => navigateTo(PAGE_PRODUCTS)}className="btn">
         View Products
       </button>
-      <button onClick={myorder} className='btn'>My Orders</button>
+      
     </header>
     {page === PAGE_PRODUCTS && (
       <Products cart={cart} setCart={setCart} />

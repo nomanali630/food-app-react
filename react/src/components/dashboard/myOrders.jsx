@@ -22,7 +22,19 @@ function Myorders() {
             <div className='container'>
                 <h1 className='text-center'>My Orders</h1>
                 <div className='row justify-content-center'>
-                    {
+                {myOrder.length === 0 ?
+                        <>
+                            <div>loading</div>
+                            <div></div>
+                            <div className="spinner-border text-primary" role="status">
+                                <span className="sr-only">Loading...</span>
+                            </div>
+                        </>
+                        : null}
+
+
+                    { 
+        
                         myOrder.map((value, index) => {
                             {console.log('value is ',value)}
                             return (

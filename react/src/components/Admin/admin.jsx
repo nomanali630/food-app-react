@@ -6,10 +6,7 @@ import {useHistory} from 'react-router-dom';
 
 
 function AdminDashboard() {
-    var history = useHistory()
-    function addproducts(){
-      history.push("./Addproduct")
-    }
+    
     var [getorder, setgetorder] = useState([])
     useEffect(() => {
         axios({
@@ -41,7 +38,7 @@ function AdminDashboard() {
     console.log("order:", getorder)
     return (
         <div>
-            <button className='  mt-2 btn btn-primary' onClick={addproducts}>Add product</button>
+            
             <div className="container">
                 <h2 className="text-center mt-5 mb-5">Customer orders</h2>
                 <div className="row justify-content-center">
@@ -82,7 +79,7 @@ function AdminDashboard() {
                                 </div>
                                 <div >
                                 <span className='float-right mt-2'>
-                                            <button onClick={() => {
+                                            <button className="btn btn-outline-success" onClick={() => {
                                                 updateStatus(value._id)
                                             }} >Confirm Order</button>
                                         </span>
