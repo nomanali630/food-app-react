@@ -224,6 +224,52 @@ app.post('/updateStatus',(req,res,next)=>{
     })
 })
 
+app.post('/delete',(req,res,next)=>{
+    itemOrderModel.findById({_id:req.body.id},(err,data)=>{
+        if(data){
+            data.remove({},(error,update)=>{
+                if(update){
+                    res.send('deleted')
+                }else{
+                    console.log(error)
+                }
+            })
+        }else{
+            res.send(err)
+        }
+    })
+})
+
+// app.post('/delete', (req, res, next) => {
+//     foodModel.findOne({ email: req.body.jToken.email }, (err, user) => {
+//         if (user) {
+//             itemOrderModel.findOne({ _id: req.body.id }, (err, data) => {
+//                 if (data) {
+//                     data.deleteOne({}, (err, del) => {
+//                         if (del) {
+//                             res.send({
+//                                 status: 200,
+//                                 message: "Deleted"
+//                             })
+//                         }
+//                         else {
+//                             res.send({
+//                                 message: "somrething went wrong"
+//                             })
+//                         }
+//                     })
+//                 } else {
+//                     res.send({
+//                         message: "somrething went wrong"
+//                     })
+//                 }
+//             })
+//         } else {
+//             res.send(err)
+//         }
+//     })
+// })
+
 
 
 app.post("/upload", upload.any(), (req, res, next) => {

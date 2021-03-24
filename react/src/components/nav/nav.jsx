@@ -26,7 +26,7 @@ function Nav() {
                     <Link className="nav-link" to="/orderhistory">Order History <span className="sr-only">(current)</span></Link>
                   </li>
 
-                  <div style={{marginLeft:800}} >
+                  <div style={{ marginLeft: "900px" }} >
                     <Logout />
                   </div>
                 </ul>
@@ -43,7 +43,7 @@ function Nav() {
                   <li className="nav-item">
                     <Link className="nav-link" to="/myOrders">my orders</Link>
                   </li>
-                  <div style={{marginLeft:950}} >
+                  <div style={{ marginLeft: "1000px" }} >
                     <Logout />
                   </div>
                 </ul>
@@ -55,12 +55,21 @@ function Nav() {
 
             <div>
               <form className="form-inline my-2 my-lg-0 "  >
-                <button className="btn btn-outline-success my-2 my-sm-0 " type="submit">
+                {/* <button className="btn btn-outline-success my-2 my-sm-0 " type="submit">
                   <Link className="nav-link" to="/login">Login<span className="sr-only">(current)</span></Link>
                 </button>
                 <button className="btn btn-outline-success my-2 my-sm-0 ml-3" type="submit">
                   <Link className="nav-link" to="/signup">Signup <span className="sr-only">(current)</span></Link>
-                </button>
+                </button> */}
+                <ul className="navbar-nav mr-auto">
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/signup">Sign up</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/login">Log In</Link>
+                  </li>
+                </ul>
+
 
               </form>
             </div> : null

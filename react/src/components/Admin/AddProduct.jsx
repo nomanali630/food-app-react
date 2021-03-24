@@ -52,7 +52,7 @@ function AddProduct() {
                                         <input type="file" className="custom-file-input" id="file" />
                                         <label className="custom-file-label" for="file">Choose Image</label>
                                     </div>
-                                </div>
+                                </div><br/>
                                 <button type="submit" className=" btn btn-primary">Add Product</button>
                             </div>
                         </form><br/>
