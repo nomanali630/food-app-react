@@ -1,12 +1,12 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import "./admin.css"
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
 
 function AdminDashboard() {
-    
+
     var [getorder, setgetorder] = useState([])
     useEffect(() => {
         axios({
@@ -23,7 +23,7 @@ function AdminDashboard() {
     function updateStatus(id) {
         axios({
             method: 'post',
-            url:  'http://localhost:5000/updateStatus',
+            url: 'http://localhost:5000/updateStatus',
             data: {
                 id: id,
                 status: "Order confirmed"
@@ -35,10 +35,26 @@ function AdminDashboard() {
             console.log(err)
         })
     }
+    function del (id){
+        axios({
+            method:'post',
+            url:'http://localhost:5000/delete',
+            data:{
+                id:id
+            },
+            withCredentials:true
+        }).then((res)=>{
+            console.log(res.data)
+            alert(res.data)
+        }).catch((error)=>{
+            console.log(error)
+        })
+    }
+
     console.log("order:", getorder)
     return (
         <div>
-            
+
             <div className="container">
                 <h2 className="text-center mt-5 mb-5">Customer orders</h2>
                 <div className="row justify-content-center">
@@ -60,7 +76,7 @@ function AdminDashboard() {
                                 {value.orders.map((value, index) => {
                                     return (
                                         <div>
-                                            
+
                                             <div>
                                                 <span>Name:</span>
                                                 <span className="float-right">{value.product}</span>
@@ -78,11 +94,16 @@ function AdminDashboard() {
                                     <span className="float-right">Pkr:{value.total}</span>
                                 </div>
                                 <div >
-                                <span className='float-right mt-2'>
-                                            <button className="btn btn-outline-success" onClick={() => {
-                                                updateStatus(value._id)
-                                            }} >Confirm Order</button>
-                                        </span>
+                                    <span className='float-right mt-2'>
+                                        <button className="btn btn-outline-success" onClick={() => {
+                                            updateStatus(value._id)
+                                        }} >Confirm Order</button>
+                                    </span>
+                                    <span className='float-left mt-2'>
+                                        <button className="btn btn-outline-success" onClick={() => {
+                                            del(value._id)
+                                        }} >Delete</button>
+                                    </span>
                                 </div>
                             </div>
 
@@ -92,9 +113,9 @@ function AdminDashboard() {
 
                 </div>
             </div>
-            
+
         </div>
-         
+
     )
 }
 export default AdminDashboard;

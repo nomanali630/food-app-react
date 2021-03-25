@@ -33,10 +33,10 @@ function Checkout() {
   }
   return (
     <div className="Container " style={{ boxShadow: "0 0 10px grey" ,width:"400px" ,margin:"0 auto"} }>
-      <h3 className=" col-sm-12 mt-5 row justify-content-center">Check out</h3>
+      <h3 className=" col-sm-12 mt-5 pt-3 row justify-content-center">Check Out</h3>
       <div className=" col-sm-12 mt-5 row justify-content-center">
          
-        <form onSubmit={order}>
+        <form onSubmit={order} >
           <div className="form-group">
             {/* <label htmlFor="exampleInputEmail1">Name</label> */}
             <input type="text" className="name" id="name" aria-describedby="emailHelp" placeholder="Name" required />
@@ -50,7 +50,7 @@ function Checkout() {
             {/* <label htmlFor="exampleInputPassword1">Address</label> */}
             <input type="text" className="address" id="address" placeholder="Address" required />
           </div>
-          <button type="submit" className="btn btn-primary ">Submit</button>
+          <button type="submit" className="btn btn-outline-success mb-4 container-fluid ">Submit</button>
           {show ? <div class="alert alert-success" role="alert">{show}</div> : null}
         </form>
 
